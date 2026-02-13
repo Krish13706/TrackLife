@@ -3,25 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>Life OS</title>
-    
     <link rel="manifest" href="manifest.json">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Life OS">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+
+    <div id="homePage" class="page active-page">
         <h1>Life OS</h1>
-        <h3 id="statusMsg">Ready</h3>
-        
-        <textarea id="myNotes" placeholder="Type here... I will remember it next time."></textarea>
+        <div class="menu-grid">
+            <button class="big-btn food-btn" onclick="showPage('foodPage')">FOOD</button>
+            <button class="big-btn gym-btn" onclick="showPage('gymPage')">GYM</button>
+            <button class="big-btn study-btn" onclick="showPage('studyPage')">STUDY</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <div id="foodPage" class="page hidden-page">
+        <div class="header">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h2>FOOD</h2>
+        </div>
+        
+        <div class="content-center">
+            <div class="progress-container">
+                <div id="foodBar" class="progress-fill food-fill"></div>
+            </div>
+            <h1 id="foodText">0%</h1>
+            
+            <input type="text" id="foodInput" placeholder="Type +10 or -10" inputmode="text">
+            <button class="action-btn" onclick="updateStat('food')">Update</button>
+        </div>
+    </div>
+
+    <div id="gymPage" class="page hidden-page">
+        <div class="header">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h2>GYM</h2>
+        </div>
+
+        <div class="content-center">
+            <div class="progress-container">
+                <div id="gymBar" class="progress-fill gym-fill"></div>
+            </div>
+            <h1 id="gymText">0%</h1>
+
+            <input type="text" id="gymInput" placeholder="Type +10 or -10" inputmode="text">
+            <button class="action-btn" onclick="updateStat('gym')">Update</button>
+        </div>
+    </div>
+
+    <div id="studyPage" class="page hidden-page">
+        <div class="header">
+            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+            <h2>STUDY</h2>
+        </div>
+
+        <div class="content-center">
+            <div id="timerCircle" class="timer-display">
+                <h1 id="timerText">00:50</h1>
+            </div>
+            
+            <button class="action-btn study-btn" onclick="startTimer()">Start 50s Timer</button>
+            <button class="reset-btn" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
