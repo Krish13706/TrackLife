@@ -19,10 +19,13 @@ IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on
 │   ├── BRONZEIMG.png
 │   ├── SILVERIMG.png
 │   └── GOLDIMG.png
-└── Assets/         
+└── Assets/  <-- Here for now we only have button designs please insert these into the website we build and make sure to adjust resolution as each button is of different size!
+    ├── FOOD.png   
+    ├── GYM.png
+    └── STUDY.png
 
    
-2. Features
+3. Features
    THREE BOXES TO CLICK FROM and basically our foundations and focuses,
    GYM,FOOD,STUDY
 
@@ -32,7 +35,7 @@ IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on
 
    STUDY - Time studied simply thats all inside study.
    
-3. Ranking system
+4. Ranking system
 
    PROMPT - A simple medieval bronze rank badge for rookie level, filled with maximum 2 basic geometric shapes and bronze color, no names or text, detailed engraved style, subtle glow and light sparks, cinematic lighting, transparent background, fantasy style, badge only, no face or helmet
 
