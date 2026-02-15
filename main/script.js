@@ -1,36 +1,31 @@
 // --- DATA HANDLING ---
-
-// Initialize or Load Data from iPhone Memory
 let trackData = JSON.parse(localStorage.getItem('trackLifeData')) || {
     gym: { deadlift: 0, bench: 0, curls: 0 },
     food: [],
     study: 0
 };
 
-// Save Data to iPhone Memory
 function saveData() {
     localStorage.setItem('trackLifeData', JSON.stringify(trackData));
 }
 
 // --- PAGE ROUTER ---
-// Runs automatically when any page loads
 window.onload = function() {
-    // Check which page we are on by looking for unique elements
     if (document.getElementById('rank-text')) {
-        calculateHomeRank(); // We are on Index
+        calculateHomeRank(); 
     } 
     else if (document.getElementById('deadlift')) {
-        loadGym(); // We are on Gym
+        loadGym(); 
     }
     else if (document.getElementById('food-list')) {
-        loadFood(); // We are on Food
+        loadFood(); 
     }
     else if (document.getElementById('study-time')) {
-        loadStudy(); // We are on Study
+        loadStudy(); 
     }
 };
 
-// --- 1. GYM LOGIC ---
+// --- GYM LOGIC ---
 function loadGym() {
     document.getElementById('deadlift').value = trackData.gym.deadlift || '';
     document.getElementById('bench').value = trackData.gym.bench || '';
@@ -44,7 +39,7 @@ function updateGym() {
     saveData();
 }
 
-// --- 2. FOOD LOGIC ---
+// --- FOOD LOGIC ---
 function loadFood() {
     renderFoodList();
 }
@@ -58,7 +53,6 @@ function addFood() {
         trackData.food.push({ name, cal, prot });
         saveData();
         renderFoodList();
-        // Clear inputs
         document.getElementById('food-name').value = '';
         document.getElementById('food-cal').value = '';
         document.getElementById('food-prot').value = '';
@@ -80,8 +74,6 @@ function renderFoodList() {
     trackData.food.forEach((item, index) => {
         totalCal += item.cal;
         totalProt += item.prot;
-        
-        // Add to UI
         list.innerHTML += `
             <div class="food-item">
                 <span>${item.name}</span>
@@ -94,7 +86,7 @@ function renderFoodList() {
     document.getElementById('total-prot').innerText = totalProt;
 }
 
-// --- 3. STUDY LOGIC ---
+// --- STUDY LOGIC ---
 function loadStudy() {
     const time = trackData.study || 0;
     document.getElementById('study-time').value = time === 0 ? '' : time;
@@ -110,50 +102,41 @@ function updateStudy() {
 
 function updateStudyVisuals(time) {
     const bar = document.getElementById('study-bar');
-    // Goal is 100 minutes
     let percentage = (time / 100) * 100;
     if (percentage > 100) percentage = 100;
     bar.style.width = percentage + "%";
 }
 
-// --- 4. RANKING LOGIC (HOME PAGE) ---
+// --- RANKING LOGIC (UPDATED PATHS) ---
 function calculateHomeRank() {
-    // A. GYM SCORE
-    // Gold: 185, Silver: 155, Bronze: <155
+    // 1. Gym Score
     const maxLift = Math.max(trackData.gym.deadlift, trackData.gym.bench, trackData.gym.curls);
-    let gymPoints = 1; // Bronze
-    if (maxLift >= 185) gymPoints = 3; // Gold
-    else if (maxLift >= 155) gymPoints = 2; // Silver
+    let gymPoints = 1;
+    if (maxLift >= 185) gymPoints = 3;
+    else if (maxLift >= 155) gymPoints = 2;
 
-    // B. FOOD SCORE
-    // Gold: 2000c/120p, Silver: 1800c/100p
+    // 2. Food Score
     let totalCal = 0, totalProt = 0;
     trackData.food.forEach(f => { totalCal += f.cal; totalProt += f.prot; });
-    
     let foodPoints = 1;
     if (totalCal >= 2000 && totalProt >= 120) foodPoints = 3;
     else if (totalCal >= 1800 && totalProt >= 100) foodPoints = 2;
 
-    // C. STUDY SCORE
-    // Gold: 100m, Silver: 80m
+    // 3. Study Score
     let studyPoints = 1;
     if (trackData.study >= 100) studyPoints = 3;
     else if (trackData.study >= 80) studyPoints = 2;
 
-    // CALCULATE FINAL RANK
-    // Max points = 9. 
-    // Gold Rank requires High Average (e.g. 8 or 9 points)
-    // Silver Rank requires Mid Average (e.g. 5 to 7 points)
     const totalPoints = gymPoints + foodPoints + studyPoints;
-
+    
     const rankImg = document.getElementById('rank-img');
     const rankText = document.getElementById('rank-text');
     const progressBar = document.getElementById('rank-progress');
     const msg = document.getElementById('msg-text');
 
+    // UPDATED IMAGE PATHS HERE: assets/images/
     if (totalPoints >= 8) {
-        // GOLD
-        rankImg.src = "GOLDIMG.png";
+        rankImg.src = "assets/images/GOLDIMG.png";
         rankText.innerText = "GOLD RANK";
         rankText.style.color = "#ffd700";
         progressBar.style.width = "100%";
@@ -161,8 +144,7 @@ function calculateHomeRank() {
         msg.innerText = "Solid, reliable performance.";
     } 
     else if (totalPoints >= 5) {
-        // SILVER
-        rankImg.src = "SILVERIMG.png";
+        rankImg.src = "assets/images/SILVERIMG.png";
         rankText.innerText = "SILVER RANK";
         rankText.style.color = "#e0e0e0";
         progressBar.style.width = "60%";
@@ -170,8 +152,7 @@ function calculateHomeRank() {
         msg.innerText = "Showing early skill.";
     } 
     else {
-        // BRONZE
-        rankImg.src = "BRONZEIMG.png";
+        rankImg.src = "assets/images/BRONZEIMG.png";
         rankText.innerText = "BRONZE RANK";
         rankText.style.color = "#cd7f32";
         progressBar.style.width = "30%";
