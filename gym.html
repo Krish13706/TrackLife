@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gym | TrackLife</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="subpage-body">
+
+    <a href="index.html" class="back-btn">← DASHBOARD</a>
+
+    <main class="glass-white content-box">
+        <h1>GYM STATS</h1>
+        <p class="subtitle">Enter your max weight (LBS)</p>
+
+        <div class="input-group">
+            <label>DEADLIFT</label>
+            <input type="number" id="deadlift" placeholder="0" oninput="updateGym()">
+        </div>
+
+        <div class="input-group">
+            <label>BENCH PRESS</label>
+            <input type="number" id="bench" placeholder="0" oninput="updateGym()">
+        </div>
+
+        <div class="input-group">
+            <label>BICEP CURLS</label>
+            <input type="number" id="curls" placeholder="0" oninput="updateGym()">
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

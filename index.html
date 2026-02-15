@@ -2,70 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrackLife | Krish Pandya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TrackLife Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="dashboard-body">
 
-    <header id="rank-header">
-        <div class="rank-container">
-            <h1 class="app-title">TRACKLIFE</h1>
-            <div class="progress-bar-container">
-                <div id="rank-progress" class="rank-progress"></div>
-            </div>
-            <div class="rank-display">
-                <img id="rank-img" src="BRONZEIMG.png" alt="Current Rank">
-                <h2 id="rank-text">BRONZE</h2>
-            </div>
+    <header class="rank-container">
+        <h1 class="app-title">TRACKLIFE</h1>
+        
+        <div class="rank-visuals">
+            <img id="rank-img" src="BRONZEIMG.png" alt="Rank Badge">
+            <h2 id="rank-text">BRONZE</h2>
         </div>
+
+        <div class="progress-container">
+            <div id="rank-progress" class="progress-bar"></div>
+        </div>
+        <p class="next-rank-msg" id="msg-text">Begin your journey.</p>
     </header>
 
-    <main class="dashboard">
-        
-        <section class="card glass-white" id="gym-section">
-            <h2>GYM</h2>
-            <div class="input-group">
-                <label>Deadlift (lbs)</label>
-                <input type="number" id="deadlift" placeholder="0" oninput="updateData()">
-            </div>
-            <div class="input-group">
-                <label>Bench Press (lbs)</label>
-                <input type="number" id="bench" placeholder="0" oninput="updateData()">
-            </div>
-            <div class="input-group">
-                <label>Bicep Curls (lbs)</label>
-                <input type="number" id="curls" placeholder="0" oninput="updateData()">
-            </div>
-            <div id="gym-list"></div>
-        </section>
+    <nav class="main-menu">
+        <a href="gym.html" class="nav-card glass-white">
+            <h3>GYM</h3>
+            <p>Strength & Power</p>
+        </a>
 
-        <section class="card glass-green" id="food-section">
-            <h2>FOOD</h2>
-            <div class="food-controls">
-                <input type="text" id="food-name" placeholder="Item Name">
-                <input type="number" id="food-cal" placeholder="Cals">
-                <input type="number" id="food-prot" placeholder="Protein (g)">
-                <button onclick="addFood()" class="add-btn">+</button>
-            </div>
-            <div id="food-list" class="scroll-list">
-                </div>
-            <div class="totals">
-                <p>Total Cals: <span id="total-cals">0</span></p>
-                <p>Total Protein: <span id="total-prot">0</span>g</p>
-            </div>
-        </section>
+        <a href="food.html" class="nav-card glass-green">
+            <h3>FOOD</h3>
+            <p>Nutrition Log</p>
+        </a>
 
-        <section class="card glass-orange" id="study-section">
-            <h2>STUDY</h2>
-            <div class="study-box">
-                <label>Minutes Studied Today</label>
-                <input type="number" id="study-time" placeholder="0" oninput="updateData()">
-            </div>
-        </section>
-
-    </main>
+        <a href="study.html" class="nav-card glass-orange">
+            <h3>STUDY</h3>
+            <p>Knowledge Base</p>
+        </a>
+    </nav>
 
     <script src="script.js"></script>
 </body>
