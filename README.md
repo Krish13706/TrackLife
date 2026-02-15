@@ -4,7 +4,12 @@ Competitive lifestyle ranking system to help motivate and reach further future g
 
 IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on GITHUB servers. 
 
-1. Features
+0. LOCATION OF EACH FILE INSIDE GIT REPOSITORY
+   Food. --> food.html
+   gym. --> gym.html
+   study. --> study.html
+   main --> index.html, script.js, style.css
+2. Features
    THREE BOXES TO CLICK FROM and basically our foundations and focuses,
    GYM,FOOD,STUDY
 
