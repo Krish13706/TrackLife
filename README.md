@@ -52,5 +52,47 @@ WORK IN PROGRESS DO NOT CODE YET.
   ---> FOOD --> GREEN GLASS
   ---> STUDY --> ORANGE GLASS
 
+8 . WEBSITE FLOW:
+
+1. HOME PAGE (Dashboard)
+
+Visuals: Shows Current Rank Image (Bronze/Silver/Gold) + Progress Bar.
+
+Navigation: Three Big Buttons: [GYM] [FOOD] [STUDY].
+
+2. THE CLICKS (Navigation)
+
+Click [GYM] ---> Opens GYM PAGE
+
+Input: 3 Boxes (Deadlift, Bench Press, Bicep Curls).
+
+Action: Type weight in lbs -> Saves automatically.
+
+Nav: Back Button -> Returns to Home.
+
+Click [FOOD] ---> Opens FOOD PAGE
+
+Input: 3 Boxes (Item Name, Calories, Protein) + [ADD] Button.
+
+Display: List of food eaten today + Total Calories/Protein counter.
+
+Nav: Back Button -> Returns to Home.
+
+Click [STUDY] ---> Opens STUDY PAGE
+
+Input: 1 Big Box (Minutes Studied).
+
+Visual: Mini progress bar (Goal: 100 mins).
+
+Nav: Back Button -> Returns to Home.
+
+3. THE LOGIC
+
+Data: All inputs save to "Local Storage" (iPhone memory) instantly.
+
+Ranking: When you go back to Home Page, it reads the memory and updates your Rank Image immediately.
+
+   
+
 
    
