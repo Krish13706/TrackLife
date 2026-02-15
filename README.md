@@ -8,7 +8,8 @@ IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on
    Food. --> food.html
    gym. --> gym.html
    study. --> study.html
-   main --> index.html, script.js, style.css
+   root --> index.html, script.js, style.css
+   RANKS --> BRONZEIMG.png, GOLDIMG.png, SILVERIMG.png
 2. Features
    THREE BOXES TO CLICK FROM and basically our foundations and focuses,
    GYM,FOOD,STUDY
