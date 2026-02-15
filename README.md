@@ -4,13 +4,24 @@ Competitive lifestyle ranking system to help motivate and reach further future g
 
 IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on GITHUB servers. 
 
-0. LOCATION OF EACH FILE INSIDE GIT REPOSITORY
-   Food. --> food.html
-   gym. --> gym.html
-   study. --> study.html
-   root --> index.html, script.js, style.css
-   RANKS --> BRONZEIMG.png, GOLDIMG.png, SILVERIMG.png
-   Assets -->
+1. LOCATION OF EACH FILE INSIDE GIT REPOSITORY ( DIRECTORY TREE )
+   TrackLife/ (Repository Root)
+├── index.html
+├── script.js
+├── style.css
+├── Food./            <-- Folder has a DOT
+│   └── food.html
+├── gym./             <-- Folder has a DOT
+│   └── gym.html
+├── study./           <-- Folder has a DOT
+│   └── study.html
+├── RANKS/            <-- Folder has NO dot
+│   ├── BRONZEIMG.png
+│   ├── SILVERIMG.png
+│   └── GOLDIMG.png
+└── Assets/         
+
+   
 2. Features
    THREE BOXES TO CLICK FROM and basically our foundations and focuses,
    GYM,FOOD,STUDY
