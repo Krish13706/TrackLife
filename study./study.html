@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Study | TrackLife</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="subpage-body">
+
+    <a href="index.html" class="back-btn">← DASHBOARD</a>
+
+    <main class="glass-orange content-box">
+        <h1>KNOWLEDGE</h1>
+        
+        <div class="study-wrapper">
+            <label>MINUTES STUDIED TODAY</label>
+            <input type="number" id="study-time" class="giant-input" placeholder="0" oninput="updateStudy()">
+            
+            <div class="goal-tracker">
+                <p>Daily Goal: 100 Minutes</p>
+                <div class="mini-progress-bg">
+                    <div id="study-bar" class="mini-progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
