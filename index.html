@@ -2,74 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Life OS</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackLife | Krish Pandya</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="homePage" class="page active-page">
-        <h1>Life OS</h1>
-        <div class="menu-grid">
-            <button class="big-btn food-btn" onclick="showPage('foodPage')">FOOD</button>
-            <button class="big-btn gym-btn" onclick="showPage('gymPage')">GYM</button>
-            <button class="big-btn study-btn" onclick="showPage('studyPage')">STUDY</button>
+    <header id="rank-header">
+        <div class="rank-container">
+            <h1 class="app-title">TRACKLIFE</h1>
+            <div class="progress-bar-container">
+                <div id="rank-progress" class="rank-progress"></div>
+            </div>
+            <div class="rank-display">
+                <img id="rank-img" src="BRONZEIMG.png" alt="Current Rank">
+                <h2 id="rank-text">BRONZE</h2>
+            </div>
         </div>
-    </div>
+    </header>
 
-    <div id="foodPage" class="page hidden-page">
-        <div class="header">
-            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
-            <h2>FOOD</h2>
-        </div>
+    <main class="dashboard">
         
-        <div class="content-center">
-            <div class="progress-container">
-                <div id="foodBar" class="progress-fill food-fill"></div>
-            </div>
-            <h1 id="foodText">0%</h1>
-            
-            <input type="text" id="foodInput" placeholder="Type +10 or -10" inputmode="text">
-            <button class="action-btn" onclick="updateStat('food')">Update</button>
-        </div>
-    </div>
-
-    <div id="gymPage" class="page hidden-page">
-        <div class="header">
-            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+        <section class="card glass-white" id="gym-section">
             <h2>GYM</h2>
-        </div>
-
-        <div class="content-center">
-            <div class="progress-container">
-                <div id="gymBar" class="progress-fill gym-fill"></div>
+            <div class="input-group">
+                <label>Deadlift (lbs)</label>
+                <input type="number" id="deadlift" placeholder="0" oninput="updateData()">
             </div>
-            <h1 id="gymText">0%</h1>
+            <div class="input-group">
+                <label>Bench Press (lbs)</label>
+                <input type="number" id="bench" placeholder="0" oninput="updateData()">
+            </div>
+            <div class="input-group">
+                <label>Bicep Curls (lbs)</label>
+                <input type="number" id="curls" placeholder="0" oninput="updateData()">
+            </div>
+            <div id="gym-list"></div>
+        </section>
 
-            <input type="text" id="gymInput" placeholder="Type +10 or -10" inputmode="text">
-            <button class="action-btn" onclick="updateStat('gym')">Update</button>
-        </div>
-    </div>
+        <section class="card glass-green" id="food-section">
+            <h2>FOOD</h2>
+            <div class="food-controls">
+                <input type="text" id="food-name" placeholder="Item Name">
+                <input type="number" id="food-cal" placeholder="Cals">
+                <input type="number" id="food-prot" placeholder="Protein (g)">
+                <button onclick="addFood()" class="add-btn">+</button>
+            </div>
+            <div id="food-list" class="scroll-list">
+                </div>
+            <div class="totals">
+                <p>Total Cals: <span id="total-cals">0</span></p>
+                <p>Total Protein: <span id="total-prot">0</span>g</p>
+            </div>
+        </section>
 
-    <div id="studyPage" class="page hidden-page">
-        <div class="header">
-            <button class="back-btn" onclick="showPage('homePage')">← Back</button>
+        <section class="card glass-orange" id="study-section">
             <h2>STUDY</h2>
-        </div>
-
-        <div class="content-center">
-            <div id="timerCircle" class="timer-display">
-                <h1 id="timerText">00:50</h1>
+            <div class="study-box">
+                <label>Minutes Studied Today</label>
+                <input type="number" id="study-time" placeholder="0" oninput="updateData()">
             </div>
-            
-            <button class="action-btn study-btn" onclick="startTimer()">Start 50s Timer</button>
-            <button class="reset-btn" onclick="resetTimer()">Reset</button>
-        </div>
-    </div>
+        </section>
 
-    <script src="script.js?v=3.0"></script>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,122 +1,172 @@
-body {
-    background-color: #121212;
-    color: white;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    margin: 0;
-    overflow: hidden; /* Prevents scrolling */
+:root {
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --bg-black: #0a0a0a;
 }
 
-/* Page Management */
-.page {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-black);
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease; /* Slide effect */
+    align-items: center;
 }
 
-.hidden-page { display: none; }
-.active-page { display: flex; }
+/* Header & Rank */
+#rank-header {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-/* Home Menu */
-.menu-grid {
+.app-title {
+    font-family: 'Cinzel', serif; /* Medieval fantasy vibe */
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.rank-display img {
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+#rank-text {
+    font-family: 'Cinzel', serif;
+    margin-top: 5px;
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.rank-progress {
+    height: 100%;
+    width: 33%; /* Default Bronze */
+    background: linear-gradient(90deg, #cd7f32, #c0c0c0, #ffd700);
+    transition: width 0.5s ease;
+}
+
+/* Dashboard Grid */
+.dashboard {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 90%;
+    max-width: 500px;
+    padding-bottom: 40px;
+}
+
+/* Glass Cards Base */
+.card {
     padding: 20px;
-    margin-top: 50px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    border: var(--glass-border);
+    transition: transform 0.2s;
 }
 
-.big-btn {
-    padding: 40px;
-    font-size: 24px;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    text-transform: uppercase;
+.card:hover {
+    transform: translateY(-2px);
 }
 
-.food-btn { background: linear-gradient(135deg, #ff9966, #ff5e62); }
-.gym-btn  { background: linear-gradient(135deg, #56ab2f, #a8e063); }
-.study-btn{ background: linear-gradient(135deg, #4facfe, #00f2fe); }
-
-/* Subpage Styles */
-.header {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-}
-.back-btn {
-    background: none;
-    border: none;
-    color: #888;
-    font-size: 18px;
-}
-h2 { margin-left: 20px; }
-
-.content-center {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.card h2 {
+    margin-top: 0;
+    font-family: 'Cinzel', serif;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 10px;
 }
 
-/* Progress Bars */
-.progress-container {
-    width: 100%;
-    height: 40px;
-    background: #333;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 10px;
+/* Specific Glass Colors */
+.glass-white {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid white;
 }
-.progress-fill {
-    height: 100%;
-    width: 0%;
-    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+.glass-green {
+    background: rgba(46, 204, 113, 0.1);
+    border-left: 4px solid #2ecc71;
 }
-.food-fill { background: #ff5e62; }
-.gym-fill  { background: #56ab2f; }
+
+.glass-orange {
+    background: rgba(230, 126, 34, 0.1);
+    border-left: 4px solid #e67e22;
+}
 
 /* Inputs */
 input {
-    background: #222;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid #444;
+    border-radius: 8px;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 20px;
-    text-align: center;
-    width: 60%;
-    margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-.action-btn {
-    padding: 15px 40px;
-    font-size: 18px;
-    border-radius: 50px;
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+/* Food Section specific */
+.food-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.food-controls input {
+    margin-bottom: 0;
+}
+
+.add-btn {
+    background: #2ecc71;
     border: none;
-    background: white;
     color: black;
     font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 0 15px;
 }
 
-/* Timer */
-.timer-display {
-    border: 4px solid #4facfe;
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
+.scroll-list {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 15px;
 }
-.timer-display h1 { font-size: 50px; margin: 0; }
-.reset-btn { background: transparent; color: #666; border: none; margin-top: 20px; }
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.delete-x {
+    color: #ff5555;
+    cursor: pointer;
+    margin-left: 10px;
+}
