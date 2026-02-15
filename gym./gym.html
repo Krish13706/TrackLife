@@ -3,34 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Food | TrackLife</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Gym | TrackLife</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body class="subpage-body">
 
-    <a href="index.html" class="back-btn">← DASHBOARD</a>
+    <a href="../index.html" class="back-btn">← DASHBOARD</a>
 
-    <main class="glass-green content-box">
-        <h1>NUTRITION</h1>
-        
-        <div class="food-input-area">
-            <input type="text" id="food-name" placeholder="Item Name (e.g. Steak)">
-            <div class="split-inputs">
-                <input type="number" id="food-cal" placeholder="Cals">
-                <input type="number" id="food-prot" placeholder="Prot (g)">
-            </div>
-            <button onclick="addFood()" class="add-btn">ADD ENTRY</button>
+    <main class="glass-white content-box">
+        <h1>GYM STATS</h1>
+        <p class="subtitle">Enter your max weight (LBS)</p>
+
+        <div class="input-group">
+            <label>DEADLIFT</label>
+            <input type="number" id="deadlift" placeholder="0" oninput="updateGym()">
         </div>
 
-        <div id="food-list" class="scrollable-list">
-            </div>
+        <div class="input-group">
+            <label>BENCH PRESS</label>
+            <input type="number" id="bench" placeholder="0" oninput="updateGym()">
+        </div>
 
-        <div class="totals-area">
-            <div>Total Cals: <span id="total-cals">0</span></div>
-            <div>Total Protein: <span id="total-prot">0</span>g</div>
+        <div class="input-group">
+            <label>BICEP CURLS</label>
+            <input type="number" id="curls" placeholder="0" oninput="updateGym()">
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>
