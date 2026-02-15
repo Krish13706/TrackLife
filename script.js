@@ -107,7 +107,7 @@ function updateStudyVisuals(time) {
     bar.style.width = percentage + "%";
 }
 
-// --- RANKING LOGIC (UPDATED PATHS) ---
+// --- RANKING LOGIC ---
 function calculateHomeRank() {
     // 1. Gym Score
     const maxLift = Math.max(trackData.gym.deadlift, trackData.gym.bench, trackData.gym.curls);
@@ -134,9 +134,9 @@ function calculateHomeRank() {
     const progressBar = document.getElementById('rank-progress');
     const msg = document.getElementById('msg-text');
 
-    // UPDATED IMAGE PATHS HERE: assets/images/
+    // === UPDATED PATHS: RANKS/ (No dot) ===
     if (totalPoints >= 8) {
-        rankImg.src = "assets/images/GOLDIMG.png";
+        rankImg.src = "RANKS/GOLDIMG.png";
         rankText.innerText = "GOLD RANK";
         rankText.style.color = "#ffd700";
         progressBar.style.width = "100%";
@@ -144,7 +144,7 @@ function calculateHomeRank() {
         msg.innerText = "Solid, reliable performance.";
     } 
     else if (totalPoints >= 5) {
-        rankImg.src = "assets/images/SILVERIMG.png";
+        rankImg.src = "RANKS/SILVERIMG.png";
         rankText.innerText = "SILVER RANK";
         rankText.style.color = "#e0e0e0";
         progressBar.style.width = "60%";
@@ -152,7 +152,7 @@ function calculateHomeRank() {
         msg.innerText = "Showing early skill.";
     } 
     else {
-        rankImg.src = "assets/images/BRONZEIMG.png";
+        rankImg.src = "RANKS/BRONZEIMG.png";
         rankText.innerText = "BRONZE RANK";
         rankText.style.color = "#cd7f32";
         progressBar.style.width = "30%";
