@@ -2,61 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrackLife Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TrackLife</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="rank-display">
-            <img id="rank-img" src="RANKS/BRONZEIMG.png" alt="Current Rank">
-            <h3 id="rank-name">BRONZE</h3>
+    <div class="app-header">
+        <div class="rank-info">
+            <img id="rank-img" src="RANKS/BRONZEIMG.png" alt="Rank">
+            <div class="rank-text">
+                <h3 id="rank-name">BRONZE</h3>
+                <span class="xp-label">Rank Progress</span>
+            </div>
         </div>
         
         <div class="progress-container">
-            <div class="progress-bar-bg">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
+            <div class="progress-fill" id="progress-fill" style="--score: 0%"></div>
             <div class="dots-overlay"></div>
         </div>
-        <p class="xp-text">Rank Progress</p>
     </div>
 
     <main class="main-content">
-        <header>
-            <div class="logo">TrackLife</div>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Features</a>
-                <a href="#">Pricing</a> <a href="#">About</a>
-            </nav>
-        </header>
-
         <section class="hero">
-            <h1>Welcome to Your <br> <span class="highlight">TrackLife Platform</span></h1>
-            <p>Competitive lifestyle ranking system to help motivate and reach further future goals.</p>
-            <button class="cta-btn">Get Started</button>
+            <h1>TrackLife</h1>
+            <p>Your competitive lifestyle tracker.</p>
         </section>
 
         <section class="cards-container">
             <a href="gym/gym.html" class="card gym-card">
-                <div class="icon">🏋️</div>
-                <h2>GYM</h2>
-                <p>Deadlift, Bench, Curls</p>
+                <div class="card-left">
+                    <div class="icon">🏋️</div>
+                    <div class="card-text">
+                        <h2>GYM</h2>
+                        <p>Lift Stats</p>
+                    </div>
+                </div>
+                <div class="card-arrow">→</div>
             </a>
 
             <a href="study/study.html" class="card study-card">
-                <div class="icon">🎓</div>
-                <h2>STUDY</h2>
-                <p>Track your focus minutes</p>
+                <div class="card-left">
+                    <div class="icon">🎓</div>
+                    <div class="card-text">
+                        <h2>STUDY</h2>
+                        <p>Focus Time</p>
+                    </div>
+                </div>
+                <div class="card-arrow">→</div>
             </a>
 
             <a href="food/food.html" class="card food-card">
-                <div class="icon">🍽️</div>
-                <h2>FOOD</h2>
-                <p>Calories & Protein</p>
+                <div class="card-left">
+                    <div class="icon">🍽️</div>
+                    <div class="card-text">
+                        <h2>FOOD</h2>
+                        <p>Macros</p>
+                    </div>
+                </div>
+                <div class="card-arrow">→</div>
             </a>
         </section>
     </main>

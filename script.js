@@ -3,28 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function updateRank() {
-    // 1. Retrieve Data from Local Storage (Default to 0 if empty)
-    // Note: You must ensure your other pages save data using these exact keys
-    const gymWeight = parseFloat(localStorage.getItem('gymWeight')) || 0; // lbs
+    // 1. Retrieve Data
+    const gymWeight = parseFloat(localStorage.getItem('gymWeight')) || 0;
     const foodCals = parseFloat(localStorage.getItem('foodCals')) || 0;
     const foodProtein = parseFloat(localStorage.getItem('foodProtein')) || 0;
     const studyMins = parseFloat(localStorage.getItem('studyMins')) || 0;
 
-    // 2. Define Goals (Based on README Gold Standards)
+    // 2. Define Goals
     const goals = {
-        gym: 185,       // 185lbs for Gold
-        cals: 2000,     // 2000 cals for Gold
-        protein: 120,   // 120g protein for Gold
-        study: 100      // 100 mins for Gold
+        gym: 185,
+        cals: 2000,
+        protein: 120,
+        study: 100
     };
 
-    // 3. Calculate Scores (0 to 100%)
-    // We cap them at 100 so over-achieving in one area doesn't carry a lazy area too much
-    
+    // 3. Calculate Scores
     let gymScore = (gymWeight / goals.gym) * 100;
     if (gymScore > 100) gymScore = 100;
 
-    // For food, we average the progress of Calories and Protein
     let calScore = (foodCals / goals.cals) * 100;
     let protScore = (foodProtein / goals.protein) * 100;
     if (calScore > 100) calScore = 100;
@@ -34,14 +30,12 @@ function updateRank() {
     let studyScore = (studyMins / goals.study) * 100;
     if (studyScore > 100) studyScore = 100;
 
-    // 4. Calculate Total Average Score
-    // (Gym + Food + Study) / 3
+    // 4. Total Score
     const totalScore = (gymScore + foodScore + studyScore) / 3;
 
-    // 5. Determine Rank based on Total Score
-    // Adjust these thresholds if it still feels too hard!
+    // 5. Determine Rank
     let currentRank = "BRONZE";
-    let rankColor = "#cd7f32"; // Bronze color
+    let rankColor = "#cd7f32"; 
 
     if (totalScore >= 85) {
         currentRank = "GOLD";
@@ -58,16 +52,12 @@ function updateRank() {
 
     rankName.innerText = currentRank;
     rankName.style.color = rankColor;
-    
-    // Update Image Source
-    // Ensure these images exist in your RANKS folder as specified in README
     rankImg.src = `RANKS/${currentRank}IMG.png`; 
 
-    // Animate the sidebar bar
-    // We use the totalScore as the height percentage
-    progressBar.style.height = `${totalScore}%`;
-    
-    // Optional: Log for debugging
-    console.log(`Scores - Gym: ${gymScore}%, Food: ${foodScore}%, Study: ${studyScore}%`);
-    console.log(`Total: ${totalScore}% -> Rank: ${currentRank}`);
+    // IMPORTANT CHANGE FOR IPHONE BAR:
+    // We update the CSS variable '--score' instead of width/height directly.
+    // This connects to the style.css var(--score)
+    progressBar.style.setProperty('--score', `${totalScore}%`);
+
+    console.log(`Rank: ${currentRank} | Score: ${totalScore.toFixed(1)}%`);
 }

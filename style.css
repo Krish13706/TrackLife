@@ -3,67 +3,86 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Removes blue tap box on iPhone */
 }
 
 body {
-    display: flex;
-    height: 100vh;
-    background-color: #0f0f0f; /* Fallback color */
-    background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2613&auto=format&fit=crop'); /* Placeholder City Night similar to concept */
+    background-color: #0f0f0f;
+    /* Use a vertical image for mobile background if possible */
+    background-image: url('https://images.unsplash.com/photo-1519608487953-e999c86e7455?q=80&w=1000&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* Keeps bg still while scrolling */
     color: white;
-    overflow: hidden;
+    min-height: 100vh;
+    padding-top: 100px; /* Space for the fixed header */
 }
 
-/* --- SIDEBAR --- */
-.sidebar {
-    width: 120px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
+/* --- APP HEADER (Top Fixed Bar) --- */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    z-index: 100;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.rank-info {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding-top: 40px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 10;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-.rank-display img {
-    width: 80px;
-    height: 80px;
+.rank-info img {
+    width: 45px;
+    height: 45px;
     object-fit: contain;
-    margin-bottom: 10px;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+.rank-text {
+    text-align: right;
 }
 
 #rank-name {
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    font-size: 1.2rem;
+    font-weight: 700;
     color: #ffd700;
-    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.xp-label {
+    font-size: 0.7rem;
+    color: #888;
     text-transform: uppercase;
 }
 
+/* --- HORIZONTAL XP BAR --- */
 .progress-container {
     position: relative;
-    width: 15px;
-    height: 300px;
+    width: 100%;
+    height: 12px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    border-radius: 6px;
     overflow: hidden;
 }
 
 .progress-fill {
-    width: 100%;
-    height: 0%; /* JS will change this */
-    background: linear-gradient(to top, #00ff00, #adff2f);
-    position: absolute;
-    bottom: 0;
-    transition: height 0.5s ease-out;
+    height: 100%;
+    /* We use the variable set by JS for width */
+    width: var(--score);
+    background: linear-gradient(90deg, #00ff00, #adff2f);
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth animation */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
 }
 
-/* Tiny dots pattern overlay */
 .dots-overlay {
     position: absolute;
     top: 0;
@@ -71,141 +90,87 @@ body {
     width: 100%;
     height: 100%;
     background-image: radial-gradient(circle, black 1px, transparent 1px);
-    background-size: 5px 5px; /* Size of the grid for dots */
+    background-size: 4px 4px;
     opacity: 0.3;
-}
-
-.xp-text {
-    margin-top: 20px;
-    font-size: 0.7rem;
-    color: #aaa;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    letter-spacing: 2px;
 }
 
 /* --- MAIN CONTENT --- */
 .main-content {
-    flex: 1;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.6); /* Overlay to darken background image */
-    padding: 0 50px;
-}
-
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 30px 0;
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-nav a {
-    color: #ddd;
-    text-decoration: none;
-    margin-left: 30px;
-    font-size: 0.9rem;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: white;
-}
-
-/* Hero Section */
 .hero {
     text-align: center;
-    margin-top: 60px;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .hero h1 {
-    font-size: 3.5rem;
-    line-height: 1.2;
-    margin-bottom: 20px;
-}
-
-.highlight {
-    background: linear-gradient(90deg, #fff, #aaa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 2.5rem;
+    margin-bottom: 5px;
 }
 
 .hero p {
     color: #ccc;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
+    font-size: 0.9rem;
 }
 
-.cta-btn {
-    padding: 12px 30px;
-    background: white;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.cta-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Cards Container */
+/* --- STACKED CARDS --- */
 .cards-container {
+    width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: auto;
-    margin-bottom: 80px;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 20px;
     text-decoration: none;
     color: white;
-    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, background 0.2s;
 }
 
-.card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-10px);
-    border-color: rgba(255, 255, 255, 0.3);
+.card:active {
+    transform: scale(0.98); /* Click effect on phone */
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.card .icon {
+.card-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
     font-size: 2rem;
-    margin-bottom: 15px;
 }
 
 .card h2 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
+    font-size: 1.3rem;
+    margin-bottom: 2px;
 }
 
 .card p {
     font-size: 0.8rem;
-    color: #aaa;
-    text-align: center;
+    color: #bbb;
 }
 
-/* README Colors Specifics on Hover */
-.gym-card:hover { box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
-.study-card:hover { box-shadow: 0 0 20px rgba(255, 165, 0, 0.2); } /* Orange glow */
-.food-card:hover { box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); } /* Green glow */
+.card-arrow {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Specific Glows */
+.gym-card { border-left: 4px solid white; }
+.study-card { border-left: 4px solid orange; }
+.food-card { border-left: 4px solid #00ff00; }
