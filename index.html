@@ -2,38 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrackLife Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="dashboard-body">
+<body>
 
-    <header class="rank-container">
-        <h1 class="app-title">TRACKLIFE</h1>
-        <div class="rank-visuals">
-            <img id="rank-img" src="RANKS/BRONZEIMG.png" alt="Rank Badge">
-            <h2 id="rank-text">BRONZE</h2>
+    <div class="sidebar">
+        <div class="rank-display">
+            <img id="rank-img" src="RANKS/BRONZEIMG.png" alt="Current Rank">
+            <h3 id="rank-name">BRONZE</h3>
         </div>
+        
         <div class="progress-container">
-            <div id="rank-progress" class="progress-bar"></div>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="dots-overlay"></div>
         </div>
-        <p class="next-rank-msg" id="msg-text">Begin your journey.</p>
-    </header>
+        <p class="xp-text">Rank Progress</p>
+    </div>
 
-    <nav class="main-menu">
-        <a href="gym./gym.html" class="nav-button-wrapper">
-            <img src="Assets/GYM.png" alt="Gym" class="nav-img">
-        </a>
+    <main class="main-content">
+        <header>
+            <div class="logo">TrackLife</div>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">Features</a>
+                <a href="#">Pricing</a> <a href="#">About</a>
+            </nav>
+        </header>
 
-        <a href="Food./food.html" class="nav-button-wrapper">
-            <img src="Assets/FOOD.png" alt="Food" class="nav-img">
-        </a>
+        <section class="hero">
+            <h1>Welcome to Your <br> <span class="highlight">TrackLife Platform</span></h1>
+            <p>Competitive lifestyle ranking system to help motivate and reach further future goals.</p>
+            <button class="cta-btn">Get Started</button>
+        </section>
 
-        <a href="study./study.html" class="nav-button-wrapper">
-            <img src="Assets/STUDY.png" alt="Study" class="nav-img">
-        </a>
-    </nav>
+        <section class="cards-container">
+            <a href="gym/gym.html" class="card gym-card">
+                <div class="icon">🏋️</div>
+                <h2>GYM</h2>
+                <p>Deadlift, Bench, Curls</p>
+            </a>
+
+            <a href="study/study.html" class="card study-card">
+                <div class="icon">🎓</div>
+                <h2>STUDY</h2>
+                <p>Track your focus minutes</p>
+            </a>
+
+            <a href="food/food.html" class="card food-card">
+                <div class="icon">🍽️</div>
+                <h2>FOOD</h2>
+                <p>Calories & Protein</p>
+            </a>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

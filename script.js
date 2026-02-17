@@ -1,141 +1,73 @@
-// --- DATA LOADING ---
-let trackData = JSON.parse(localStorage.getItem('trackLifeData')) || {
-    gym: { deadlift: 0, bench: 0, curls: 0 },
-    food: [],
-    study: 0
-};
+document.addEventListener("DOMContentLoaded", () => {
+    updateRank();
+});
 
-function saveData() {
-    localStorage.setItem('trackLifeData', JSON.stringify(trackData));
-}
+function updateRank() {
+    // 1. Retrieve Data from Local Storage (Default to 0 if empty)
+    // Note: You must ensure your other pages save data using these exact keys
+    const gymWeight = parseFloat(localStorage.getItem('gymWeight')) || 0; // lbs
+    const foodCals = parseFloat(localStorage.getItem('foodCals')) || 0;
+    const foodProtein = parseFloat(localStorage.getItem('foodProtein')) || 0;
+    const studyMins = parseFloat(localStorage.getItem('studyMins')) || 0;
 
-// --- ROUTER ---
-window.onload = function() {
-    if (document.getElementById('rank-text')) {
-        calculateHomeRank(); 
-    } 
-    else if (document.getElementById('deadlift')) {
-        loadGym(); 
+    // 2. Define Goals (Based on README Gold Standards)
+    const goals = {
+        gym: 185,       // 185lbs for Gold
+        cals: 2000,     // 2000 cals for Gold
+        protein: 120,   // 120g protein for Gold
+        study: 100      // 100 mins for Gold
+    };
+
+    // 3. Calculate Scores (0 to 100%)
+    // We cap them at 100 so over-achieving in one area doesn't carry a lazy area too much
+    
+    let gymScore = (gymWeight / goals.gym) * 100;
+    if (gymScore > 100) gymScore = 100;
+
+    // For food, we average the progress of Calories and Protein
+    let calScore = (foodCals / goals.cals) * 100;
+    let protScore = (foodProtein / goals.protein) * 100;
+    if (calScore > 100) calScore = 100;
+    if (protScore > 100) protScore = 100;
+    let foodScore = (calScore + protScore) / 2;
+
+    let studyScore = (studyMins / goals.study) * 100;
+    if (studyScore > 100) studyScore = 100;
+
+    // 4. Calculate Total Average Score
+    // (Gym + Food + Study) / 3
+    const totalScore = (gymScore + foodScore + studyScore) / 3;
+
+    // 5. Determine Rank based on Total Score
+    // Adjust these thresholds if it still feels too hard!
+    let currentRank = "BRONZE";
+    let rankColor = "#cd7f32"; // Bronze color
+
+    if (totalScore >= 85) {
+        currentRank = "GOLD";
+        rankColor = "#ffd700";
+    } else if (totalScore >= 50) {
+        currentRank = "SILVER";
+        rankColor = "#c0c0c0";
     }
-    else if (document.getElementById('food-list')) {
-        loadFood(); 
-    }
-    else if (document.getElementById('study-time')) {
-        loadStudy(); 
-    }
-};
 
-// --- GYM SECTION ---
-function loadGym() {
-    document.getElementById('deadlift').value = trackData.gym.deadlift || '';
-    document.getElementById('bench').value = trackData.gym.bench || '';
-    document.getElementById('curls').value = trackData.gym.curls || '';
-}
-
-function updateGym() {
-    trackData.gym.deadlift = parseFloat(document.getElementById('deadlift').value) || 0;
-    trackData.gym.bench = parseFloat(document.getElementById('bench').value) || 0;
-    trackData.gym.curls = parseFloat(document.getElementById('curls').value) || 0;
-    saveData();
-}
-
-// --- FOOD SECTION ---
-function loadFood() {
-    renderFoodList();
-}
-
-function addFood() {
-    const name = document.getElementById('food-name').value;
-    const cal = parseFloat(document.getElementById('food-cal').value);
-    const prot = parseFloat(document.getElementById('food-prot').value);
-    if (name && cal && prot) {
-        trackData.food.push({ name, cal, prot });
-        saveData();
-        renderFoodList();
-        document.getElementById('food-name').value = '';
-        document.getElementById('food-cal').value = '';
-        document.getElementById('food-prot').value = '';
-    }
-}
-
-function deleteFood(index) {
-    trackData.food.splice(index, 1);
-    saveData();
-    renderFoodList();
-}
-
-function renderFoodList() {
-    const list = document.getElementById('food-list');
-    if(!list) return;
-    list.innerHTML = '';
-    let totalCal = 0, totalProt = 0;
-    trackData.food.forEach((item, index) => {
-        totalCal += item.cal;
-        totalProt += item.prot;
-        list.innerHTML += `<div class="food-item" style="display:flex; justify-content:space-between; margin-bottom:5px; background:rgba(255,255,255,0.05); padding:8px; border-radius:5px;">
-            <span>${item.name}</span>
-            <span>${item.cal}c / ${item.prot}p <span style="color:red; margin-left:10px;" onclick="deleteFood(${index})">X</span></span>
-        </div>`;
-    });
-    document.getElementById('total-cals').innerText = totalCal;
-    document.getElementById('total-prot').innerText = totalProt;
-}
-
-// --- STUDY SECTION ---
-function loadStudy() {
-    const time = trackData.study || 0;
-    document.getElementById('study-time').value = time === 0 ? '' : time;
-    updateStudyVisuals(time);
-}
-
-function updateStudy() {
-    const time = parseFloat(document.getElementById('study-time').value) || 0;
-    trackData.study = time;
-    saveData();
-    updateStudyVisuals(time);
-}
-
-function updateStudyVisuals(time) {
-    const bar = document.getElementById('study-bar');
-    if(!bar) return;
-    let percentage = (time / 100) * 100;
-    if (percentage > 100) percentage = 100;
-    bar.style.width = percentage + "%";
-}
-
-// --- RANKING LOGIC ---
-function calculateHomeRank() {
-    const maxLift = Math.max(trackData.gym.deadlift, trackData.gym.bench, trackData.gym.curls);
-    let gymPts = maxLift >= 185 ? 3 : (maxLift >= 155 ? 2 : 1);
-
-    let totalCal = 0, totalProt = 0;
-    trackData.food.forEach(f => { totalCal += f.cal; totalProt += f.prot; });
-    let foodPts = (totalCal >= 2000 && totalProt >= 120) ? 3 : ((totalCal >= 1800 && totalProt >= 100) ? 2 : 1);
-
-    let studyPts = trackData.study >= 100 ? 3 : (trackData.study >= 80 ? 2 : 1);
-
-    const totalPoints = gymPts + foodPts + studyPts;
+    // 6. Update UI
     const rankImg = document.getElementById('rank-img');
-    const rankText = document.getElementById('rank-text');
-    const progressBar = document.getElementById('rank-progress');
+    const rankName = document.getElementById('rank-name');
+    const progressBar = document.getElementById('progress-fill');
 
-    if (totalPoints >= 8) {
-        rankImg.src = "RANKS/GOLDIMG.png";
-        rankText.innerText = "GOLD RANK";
-        rankText.style.color = "#ffd700";
-        progressBar.style.width = "100%";
-        progressBar.style.background = "#ffd700";
-    } else if (totalPoints >= 5) {
-        rankImg.src = "RANKS/SILVERIMG.png";
-        rankText.innerText = "SILVER RANK";
-        rankText.style.color = "#e0e0e0";
-        progressBar.style.width = "60%";
-        progressBar.style.background = "#e0e0e0";
-    } else {
-        rankImg.src = "RANKS/BRONZEIMG.png";
-        rankText.innerText = "BRONZE RANK";
-        rankText.style.color = "#cd7f32";
-        progressBar.style.width = "30%";
-        progressBar.style.background = "#cd7f32";
-    }
+    rankName.innerText = currentRank;
+    rankName.style.color = rankColor;
+    
+    // Update Image Source
+    // Ensure these images exist in your RANKS folder as specified in README
+    rankImg.src = `RANKS/${currentRank}IMG.png`; 
+
+    // Animate the sidebar bar
+    // We use the totalScore as the height percentage
+    progressBar.style.height = `${totalScore}%`;
+    
+    // Optional: Log for debugging
+    console.log(`Scores - Gym: ${gymScore}%, Food: ${foodScore}%, Study: ${studyScore}%`);
+    console.log(`Total: ${totalScore}% -> Rank: ${currentRank}`);
 }
