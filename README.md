@@ -19,11 +19,6 @@ IMPORTANT FOR THIS TO SAVE WITH IPHONE MEMORY ONCE WE REOPEN. EVERYTHING! its on
 │   ├── BRONZEIMG.png
 │   ├── SILVERIMG.png
 │   └── GOLDIMG.png
-└── Assets/  <-- Here for now we only have button designs please insert these into the website we build and make sure to adjust resolution as each button is of different size!
-    ├── FOOD.png   
-    ├── GYM.png
-    └── STUDY.png
-
    
 3. Features
    THREE BOXES TO CLICK FROM and basically our foundations and focuses,
