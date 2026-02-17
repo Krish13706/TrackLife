@@ -1,188 +1,215 @@
+:root {
+    --background: #050505;
+    --foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    --card-border: rgba(255, 255, 255, 0.15);
+    --font-family-body: 'Inter', sans-serif;
+    --rank-gold: #ffd700;
+}
+
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    -webkit-tap-highlight-color: transparent; /* Removes blue tap box on iPhone */
+    font-family: var(--font-family-body);
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: #0f0f0f;
-    
-    /* BACKGROUND LOGIC:
-       1. linear-gradient: Adds a dark tint so white text is readable.
-       2. url: Points to your file 'Background.jpg'.
-    */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('Background.jpg');
-    
-    /* This ensures the image covers the screen and "cuts" the sides for mobile view */
+    background-color: var(--background);
+    /* Your background image with a dark overlay to match the snippet's mood */
+    background-image: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.8)), url('Background.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Keeps bg still while scrolling */
-    
-    color: white;
+    background-attachment: fixed;
+    color: var(--foreground);
     min-height: 100vh;
-    padding-top: 100px; /* Space for the fixed header */
+    padding-top: 90px; /* Space for header */
 }
 
-/* --- APP HEADER (Top Fixed Bar) --- */
+/* --- HEADER / RANK BAR --- */
 .app-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    /* Made the glass slightly darker for better contrast against the new bright sky */
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(5, 5, 5, 0.85);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    -webkit-backdrop-filter: blur(15px);
     z-index: 100;
     padding: 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    border-bottom: 1px solid var(--card-border);
 }
 
 .rank-info {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
 .rank-info img {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
-    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
-}
-
-.rank-text {
-    text-align: right;
 }
 
 #rank-name {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: #ffd700;
-    letter-spacing: 1px;
+    color: var(--rank-gold);
+    text-align: right;
 }
 
 .xp-label {
     font-size: 0.7rem;
-    color: #ddd; /* Lightened text for better visibility */
+    color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
+    display: block;
+    text-align: right;
 }
 
-/* --- HORIZONTAL XP BAR --- */
 .progress-container {
-    position: relative;
     width: 100%;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.2); /* Slightly more visible track */
-    border-radius: 6px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    /* We use the variable set by JS for width */
     width: var(--score);
-    background: linear-gradient(90deg, #00ff00, #adff2f);
-    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    background: #ffffff; /* White bar like the theme */
+    transition: width 0.8s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
-.dots-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(circle, black 1px, transparent 1px);
-    background-size: 4px 4px;
-    opacity: 0.3;
-}
-
-/* --- MAIN CONTENT --- */
-.main-content {
-    padding: 20px;
+/* --- HERO SECTION --- */
+.page-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.hero {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-    /* Stronger shadow to make text pop against the bright sunset */
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-}
-
-.hero p {
-    color: #eee; /* Whiter text for contrast */
-    font-size: 0.9rem;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
-}
-
-/* --- STACKED CARDS --- */
-.cards-container {
     width: 100%;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 800px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 10px;
+}
+
+.hero-title {
+    font-size: 42px; /* Large title */
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.hero-desc {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.cta-button {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cta-button:active {
+    transform: scale(0.95);
+}
+
+/* --- CARDS GRID --- */
+.content-section {
+    width: 100%;
+    padding: 0 20px 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.cards-grid {
+    display: grid;
+    /* RESPONSIVE LOGIC: 1 column on phone, 3 on PC */
+    grid-template-columns: 1fr; 
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* On Desktop/Tablet, switch to 3 columns */
+@media (min-width: 768px) {
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .hero-title {
+        font-size: 64px;
+    }
+}
+
+/* --- FEATURE CARD STYLE (From Snippet) --- */
+.feature-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    height: 200px; /* Adjusted height for mobile */
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-.card {
-    /* Slightly darker card background to stand out from the busy city background */
-    background: rgba(0, 0, 0, 0.5); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
     text-decoration: none;
     color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s, border-color 0.2s;
 }
 
-.card:active {
-    transform: scale(0.98); 
+.feature-card:active, .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.icon-wrapper {
+    width: 48px;
+    height: 48px;
     background: rgba(255, 255, 255, 0.1);
-}
-
-.card-left {
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.icon {
-    font-size: 2rem;
+.card-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
-.card h2 {
-    font-size: 1.3rem;
-    margin-bottom: 2px;
+/* --- FOOTER --- */
+.footer {
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    margin-top: auto;
 }
-
-.card p {
-    font-size: 0.8rem;
-    color: #ccc;
-}
-
-.card-arrow {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Specific Glows */
-.gym-card { border-left: 4px solid white; }
-.study-card { border-left: 4px solid orange; }
-.food-card { border-left: 4px solid #00ff00; }

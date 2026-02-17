@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TrackLife</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -17,55 +21,53 @@
                 <span class="xp-label">Rank Progress</span>
             </div>
         </div>
-        
         <div class="progress-container">
             <div class="progress-fill" id="progress-fill" style="--score: 0%"></div>
-            <div class="dots-overlay"></div>
         </div>
     </div>
 
-    <main class="main-content">
-        <section class="hero">
-            <h1>TrackLife</h1>
-            <p>Your competitive lifestyle tracker.</p>
+    <div class="page-wrapper">
+        
+        <div class="hero-content">
+            <div class="hero-subtitle">Welcome to Your</div>
+            <h1 class="hero-title">TrackLife<br />Platform</h1>
+            <div class="hero-desc">
+                Competitive lifestyle ranking system to help motivate and reach further goals.
+            </div>
+            <button class="cta-button">Get Started</button>
+        </div>
+
+        <section class="content-section">
+            <div class="cards-grid">
+                
+                <a href="gym/gym.html" class="feature-card">
+                    <div class="icon-wrapper">
+                        <iconify-icon icon="lucide:dumbbell" style="font-size: 24px; color: white"></iconify-icon>
+                    </div>
+                    <div class="card-title">GYM</div>
+                </a>
+
+                <a href="study/study.html" class="feature-card">
+                    <div class="icon-wrapper">
+                        <iconify-icon icon="lucide:graduation-cap" style="font-size: 24px; color: white"></iconify-icon>
+                    </div>
+                    <div class="card-title">STUDY</div>
+                </a>
+
+                <a href="food/food.html" class="feature-card">
+                    <div class="icon-wrapper">
+                        <iconify-icon icon="lucide:utensils" style="font-size: 24px; color: white"></iconify-icon>
+                    </div>
+                    <div class="card-title">FOOD</div>
+                </a>
+
+            </div>
         </section>
 
-        <section class="cards-container">
-            <a href="gym/gym.html" class="card gym-card">
-                <div class="card-left">
-                    <div class="icon">🏋️</div>
-                    <div class="card-text">
-                        <h2>GYM</h2>
-                        <p>Lift Stats</p>
-                    </div>
-                </div>
-                <div class="card-arrow">→</div>
-            </a>
-
-            <a href="study/study.html" class="card study-card">
-                <div class="card-left">
-                    <div class="icon">🎓</div>
-                    <div class="card-text">
-                        <h2>STUDY</h2>
-                        <p>Focus Time</p>
-                    </div>
-                </div>
-                <div class="card-arrow">→</div>
-            </a>
-
-            <a href="food/food.html" class="card food-card">
-                <div class="card-left">
-                    <div class="icon">🍽️</div>
-                    <div class="card-text">
-                        <h2>FOOD</h2>
-                        <p>Macros</p>
-                    </div>
-                </div>
-                <div class="card-arrow">→</div>
-            </a>
-        </section>
-    </main>
+        <footer class="footer">© 2026 TrackLife Inc</footer>
+    </div>
 
     <script src="script.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </body>
 </html>
