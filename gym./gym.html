@@ -3,33 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gym | TrackLife</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Gym Tracker</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
-<body class="subpage-body">
+<body>
 
-    <a href="../index.html" class="back-btn">← DASHBOARD</a>
+<div class="screen-container">
+    <div class="bg-layer">
+        <img class="bg-image" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gym Background">
+    </div>
+    <div class="overlay"></div>
 
-    <main class="glass-white content-box">
-        <h1>GYM STATS</h1>
-        <p class="subtitle">Enter your max weight (LBS)</p>
+    <div class="top-nav">
+        <button class="back-btn" onclick="window.location.href='../index.html'">
+            <iconify-icon icon="lucide:arrow-left" style="font-size: 24px;"></iconify-icon>
+        </button>
+        <h2 class="page-title">Workout Tracker</h2>
+    </div>
 
-        <div class="input-group">
-            <label>DEADLIFT</label>
-            <input type="number" id="deadlift" placeholder="0" oninput="updateGym()">
+    <div class="content-scroll">
+        
+        <div class="exercise-card" onclick="toggleCard(this)">
+            <div class="card-header">
+                <span class="exercise-name">Bench Press</span>
+                <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <div class="card-body" onclick="event.stopPropagation()">
+                <div class="divider"></div>
+                <div class="input-wrapper">
+                    <input type="number" class="weight-input" id="gymWeight" placeholder="0">
+                    <span class="unit">LBS</span>
+                </div>
+                <button class="save-btn" onclick="saveData('gymWeight', this)">Save</button>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label>BENCH PRESS</label>
-            <input type="number" id="bench" placeholder="0" oninput="updateGym()">
+        <div class="exercise-card" onclick="toggleCard(this)">
+            <div class="card-header">
+                <span class="exercise-name">Deadlift</span>
+                <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <div class="card-body" onclick="event.stopPropagation()">
+                <div class="divider"></div>
+                <div class="input-wrapper">
+                    <input type="number" class="weight-input" placeholder="0">
+                    <span class="unit">LBS</span>
+                </div>
+                <button class="save-btn" onclick="this.innerText='Saved!'">Save</button>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label>BICEP CURLS</label>
-            <input type="number" id="curls" placeholder="0" oninput="updateGym()">
+        <div class="exercise-card" onclick="toggleCard(this)">
+            <div class="card-header">
+                <span class="exercise-name">Squat</span>
+                <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size: 20px;"></iconify-icon>
+            </div>
+            <div class="card-body" onclick="event.stopPropagation()">
+                <div class="divider"></div>
+                <div class="input-wrapper">
+                    <input type="number" class="weight-input" placeholder="0">
+                    <span class="unit">LBS</span>
+                </div>
+                <button class="save-btn" onclick="this.innerText='Saved!'">Save</button>
+            </div>
         </div>
-    </main>
 
-    <script src="../script.js"></script>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
