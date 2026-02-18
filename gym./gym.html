@@ -4,88 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Gym Tracker</title>
-    
     <link rel="stylesheet" href="style.css">
-    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 <body>
 
+<div class="page-transition-overlay" id="page-transition-overlay"></div>
+
 <div class="screen-container">
-    <div class="bg-layer">
-        <img class="bg-image" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gym Background">
-    </div>
-    <div class="overlay"></div>
 
-    <!-- PAGE TRANSITION OVERLAY -->
-    <div class="page-transition-overlay" id="page-transition-overlay"></div>
-
+    <!-- TOP NAV -->
     <div class="top-nav">
         <button class="back-btn" id="back-btn">
-            <iconify-icon icon="lucide:arrow-left" style="font-size: 24px;"></iconify-icon>
+            <iconify-icon icon="lucide:arrow-left" style="font-size:20px;"></iconify-icon>
         </button>
-        <h2 class="page-title">Workout Tracker</h2>
+        <h1 class="page-title">Gym Tracker</h1>
         <button class="add-btn" id="add-exercise-btn">
-            <iconify-icon icon="lucide:plus" style="font-size: 22px;"></iconify-icon>
+            <iconify-icon icon="lucide:sliders-horizontal" style="font-size:18px;"></iconify-icon>
         </button>
     </div>
 
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+        <div class="stat-card">
+            <div class="stat-icon"><iconify-icon icon="lucide:dumbbell" style="font-size:14px;"></iconify-icon></div>
+            <span class="stat-label">Bench</span>
+            <span class="stat-value" id="stat-bench">—</span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><iconify-icon icon="lucide:trending-up" style="font-size:14px;"></iconify-icon></div>
+            <span class="stat-label">Progress</span>
+            <span class="stat-value" id="stat-progress">0%</span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><iconify-icon icon="lucide:activity" style="font-size:14px;"></iconify-icon></div>
+            <span class="stat-label">Lifts</span>
+            <span class="stat-value" id="stat-lifts">0</span>
+        </div>
+    </div>
+
+    <!-- EXERCISES LIST -->
     <div class="content-scroll" id="exercises-list">
 
-        <!-- BENCH PRESS — fixed, key stays as gymWeight for rank system -->
-        <div class="exercise-card" id="card-bench" onclick="toggleCard(this)" data-key="gymWeight" data-label="Bench Press">
-            <div class="card-header">
-                <div class="card-header-left">
-                    <span class="exercise-badge">
-                        <iconify-icon icon="lucide:dumbbell" style="font-size: 14px;"></iconify-icon>
-                    </span>
-                    <span class="exercise-name">Bench Press</span>
+        <!-- BENCH PRESS — gymWeight key preserved for rank system -->
+        <div class="exercise-card" id="card-bench" data-key="gymWeight" data-label="Bench Press" data-goal="185" onclick="toggleCard(this)">
+            <div class="card-collapsed">
+                <div class="ex-left">
+                    <span class="ex-name">Bench Press</span>
+                    <div class="progress-track">
+                        <div class="progress-fill-bar" id="bar-gymWeight" style="width:0%"></div>
+                    </div>
                 </div>
-                <div class="card-header-right">
-                    <span class="current-weight-badge" id="badge-gymWeight"></span>
-                    <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size: 20px;"></iconify-icon>
+                <div class="ex-right">
+                    <span class="ex-value" id="val-gymWeight">—</span>
+                    <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size:18px;"></iconify-icon>
                 </div>
             </div>
 
-            <div class="card-body" onclick="event.stopPropagation()">
-                <div class="divider"></div>
-
-                <!-- Weight History Comparison -->
+            <div class="card-expanded" onclick="event.stopPropagation()">
+                <div class="expand-divider"></div>
+                <div class="mini-chart-wrap">
+                    <canvas class="mini-chart" id="chart-gymWeight" height="80"></canvas>
+                    <div class="chart-no-data" id="no-chart-gymWeight">Log weights to see your progress chart</div>
+                </div>
                 <div class="weight-history" id="history-gymWeight"></div>
-
-                <!-- Input Row -->
                 <div class="input-row" id="input-row-gymWeight">
-                    <div class="input-wrapper">
-                        <input type="number" class="weight-input" id="gymWeight" placeholder="0" inputmode="decimal">
-                        <span class="unit">LBS</span>
+                    <div class="gym-input-wrapper">
+                        <input type="number" class="gym-weight-input" id="gymWeight" placeholder="0" inputmode="decimal">
+                        <span class="gym-unit">LBS</span>
                     </div>
-                    <button class="save-btn" onclick="saveData('gymWeight', this)">
-                        <iconify-icon icon="lucide:check" style="font-size:16px;"></iconify-icon>
-                        Save
-                    </button>
+                    <button class="gym-save-btn" onclick="saveData('gymWeight', this)">Save</button>
                 </div>
-
-                <!-- Edit Row (hidden by default) -->
-                <div class="edit-row" id="edit-row-gymWeight" style="display:none;">
-                    <div class="input-wrapper">
-                        <input type="number" class="weight-input" id="gymWeight-edit" placeholder="0" inputmode="decimal">
-                        <span class="unit">LBS</span>
+                <div class="input-row" id="edit-row-gymWeight" style="display:none;">
+                    <div class="gym-input-wrapper edit-active">
+                        <input type="number" class="gym-weight-input" id="gymWeight-edit" placeholder="0" inputmode="decimal">
+                        <span class="gym-unit">LBS</span>
                     </div>
-                    <button class="confirm-edit-btn" onclick="confirmEdit('gymWeight', this)">
-                        <iconify-icon icon="lucide:check" style="font-size:16px;"></iconify-icon>
-                        Update
-                    </button>
+                    <button class="gym-update-btn" onclick="confirmEdit('gymWeight', this)">Update</button>
                 </div>
-
                 <div class="card-actions">
                     <button class="action-pill edit-pill" onclick="toggleEdit('gymWeight', event)">
-                        <iconify-icon icon="lucide:pencil" style="font-size:13px;"></iconify-icon> Edit
+                        <iconify-icon icon="lucide:pencil" style="font-size:12px;"></iconify-icon> Edit
                     </button>
                 </div>
             </div>
@@ -93,48 +97,47 @@
 
     </div>
 
-    <!-- FAB Add Button (bottom) -->
     <button class="fab-add" id="fab-btn">
-        <iconify-icon icon="lucide:plus" style="font-size: 26px;"></iconify-icon>
+        <iconify-icon icon="lucide:plus" style="font-size:26px;"></iconify-icon>
     </button>
 </div>
 
-<!-- ===== ADD EXERCISE MODAL ===== -->
+<!-- ADD EXERCISE MODAL -->
 <div class="modal-backdrop" id="modal-backdrop">
-    <div class="modal-card" id="modal-card">
+    <div class="modal-sheet" id="modal-card">
+        <div class="modal-handle"></div>
         <div class="modal-header">
             <h3 class="modal-title">Add Exercise</h3>
             <button class="modal-close" onclick="closeModal()">
-                <iconify-icon icon="lucide:x" style="font-size:20px;"></iconify-icon>
+                <iconify-icon icon="lucide:x" style="font-size:18px;"></iconify-icon>
             </button>
         </div>
         <div class="modal-body">
-            <label class="modal-label">Exercise Name</label>
-            <input type="text" class="modal-input" id="new-exercise-name" placeholder="e.g. Overhead Press" autocomplete="off">
-            
-            <div class="quick-picks">
-                <span class="quick-pick-label">Quick Add</span>
-                <div class="quick-picks-grid">
-                    <button class="quick-pick" onclick="setExerciseName('Deadlift')">Deadlift</button>
-                    <button class="quick-pick" onclick="setExerciseName('Squat')">Squat</button>
-                    <button class="quick-pick" onclick="setExerciseName('OHP')">OHP</button>
-                    <button class="quick-pick" onclick="setExerciseName('Pull Ups')">Pull Ups</button>
-                    <button class="quick-pick" onclick="setExerciseName('Barbell Row')">Barbell Row</button>
-                    <button class="quick-pick" onclick="setExerciseName('Incline Press')">Incline Press</button>
+            <label class="form-label">Exercise Name</label>
+            <input type="text" class="form-input" id="new-exercise-name" placeholder="e.g. Overhead Press" autocomplete="off">
+            <label class="form-label" style="margin-top:16px;">Goal (LBS) <span style="opacity:0.4;font-weight:400;">optional</span></label>
+            <input type="number" class="form-input" id="new-exercise-goal" placeholder="e.g. 225" inputmode="decimal">
+            <div class="quick-section">
+                <span class="form-label">Quick Add</span>
+                <div class="quick-grid">
+                    <button class="qpick" onclick="setExerciseName('Deadlift')">Deadlift</button>
+                    <button class="qpick" onclick="setExerciseName('Squat')">Squat</button>
+                    <button class="qpick" onclick="setExerciseName('OHP')">OHP</button>
+                    <button class="qpick" onclick="setExerciseName('Pull Ups')">Pull Ups</button>
+                    <button class="qpick" onclick="setExerciseName('Barbell Row')">Barbell Row</button>
+                    <button class="qpick" onclick="setExerciseName('Incline Press')">Incline Press</button>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="modal-cancel-btn" onclick="closeModal()">Cancel</button>
-            <button class="modal-add-btn" onclick="addCustomExercise()">
-                <iconify-icon icon="lucide:plus" style="font-size:16px;"></iconify-icon>
-                Add Exercise
+            <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+            <button class="modal-confirm" onclick="addCustomExercise()">
+                <iconify-icon icon="lucide:plus" style="font-size:15px;"></iconify-icon> Add
             </button>
         </div>
     </div>
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
