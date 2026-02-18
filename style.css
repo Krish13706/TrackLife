@@ -19,15 +19,139 @@
 
 body {
     background-color: var(--background);
-    /* Your background image with a dark overlay to match the snippet's mood */
     background-image: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.8)), url('Background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     color: var(--foreground);
     min-height: 100vh;
-    padding-top: 90px; /* Space for header */
+    padding-top: 90px;
 }
+
+/* ===========================
+   SPLASH SCREEN
+   =========================== */
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    /* Prevents body content flashing through */
+    will-change: opacity, transform;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.splash-screen.splash-hide {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
+}
+
+.splash-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: splashFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.splash-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: splashIconPulse 2s ease-in-out infinite;
+}
+
+.splash-title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #fff;
+}
+
+.splash-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.splash-loader {
+    width: 160px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 1px;
+    overflow: hidden;
+    animation: splashFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.splash-loader-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.4), #fff);
+    border-radius: 1px;
+    animation: splashLoad 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+@keyframes splashLoad {
+    0%   { width: 0%; }
+    60%  { width: 80%; }
+    100% { width: 100%; }
+}
+
+@keyframes splashFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splashIconPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.0); }
+    50%       { box-shadow: 0 0 0 8px rgba(255,255,255,0.04); }
+}
+
+
+/* ===========================
+   PAGE TRANSITION OVERLAY
+   =========================== */
+.page-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 8888;
+    background: #050505;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.page-transition-overlay.overlay-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+/* ===========================
+   PAGE ENTER ANIMATION
+   =========================== */
+body.page-enter .app-header,
+body.page-enter .page-wrapper {
+    animation: pageFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 
 /* --- HEADER / RANK BAR --- */
 .app-header {
@@ -82,10 +206,11 @@ body {
 .progress-fill {
     height: 100%;
     width: var(--score);
-    background: #ffffff; /* White bar like the theme */
+    background: #ffffff;
     transition: width 0.8s ease;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
 
 /* --- HERO SECTION --- */
 .page-wrapper {
@@ -108,7 +233,7 @@ body {
 }
 
 .hero-title {
-    font-size: 42px; /* Large title */
+    font-size: 42px;
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 16px;
@@ -131,12 +256,19 @@ body {
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255,255,255,0.15);
 }
 
 .cta-button:active {
     transform: scale(0.95);
+    box-shadow: none;
 }
+
 
 /* --- CARDS GRID --- */
 .content-section {
@@ -148,14 +280,12 @@ body {
 
 .cards-grid {
     display: grid;
-    /* RESPONSIVE LOGIC: 1 column on phone, 3 on PC */
     grid-template-columns: 1fr; 
     gap: 24px;
     width: 100%;
     max-width: 1200px;
 }
 
-/* On Desktop/Tablet, switch to 3 columns */
 @media (min-width: 768px) {
     .cards-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -165,13 +295,14 @@ body {
     }
 }
 
-/* --- FEATURE CARD STYLE (From Snippet) --- */
+
+/* --- FEATURE CARD STYLE --- */
 .feature-card {
     position: relative;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 24px;
-    height: 200px; /* Adjusted height for mobile */
+    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -179,12 +310,53 @@ body {
     padding: 32px;
     text-decoration: none;
     color: white;
-    transition: transform 0.2s, border-color 0.2s;
+    overflow: hidden;
+    /* Smooth all transitions */
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
 }
 
-.feature-card:active, .feature-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.4);
+/* Shimmer sweep on hover */
+.feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255,255,255,0.04) 40%,
+        rgba(255,255,255,0.10) 50%,
+        rgba(255,255,255,0.04) 60%,
+        transparent 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+}
+
+.feature-card:hover::before,
+.feature-card:active::before {
+    transform: translateX(100%);
+}
+
+.feature-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255,255,255,0.08);
+}
+
+/* Active / tap: compress down */
+.feature-card:active,
+.feature-card.card-clicked {
+    transform: scale(0.96) translateY(2px) !important;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
+    transition: transform 0.12s ease,
+                border-color 0.12s ease,
+                background 0.12s ease;
 }
 
 .icon-wrapper {
@@ -196,13 +368,25 @@ body {
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    transition: background 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.feature-card:hover .icon-wrapper {
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.1);
 }
 
 .card-title {
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    transition: letter-spacing 0.3s ease;
 }
+
+.feature-card:hover .card-title {
+    letter-spacing: 1.5px;
+}
+
 
 /* --- FOOTER --- */
 .footer {
