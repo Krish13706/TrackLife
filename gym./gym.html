@@ -7,9 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>Gym Tracker</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
 <body>
@@ -25,7 +25,7 @@
         </button>
         <h1 class="page-title">Gym Tracker</h1>
         <button class="add-btn" id="add-exercise-btn">
-            <iconify-icon icon="lucide:sliders-horizontal" style="font-size:18px;"></iconify-icon>
+            <iconify-icon icon="lucide:plus" style="font-size:20px;"></iconify-icon>
         </button>
     </div>
 
@@ -33,7 +33,7 @@
     <div class="stats-strip">
         <div class="stat-card">
             <div class="stat-icon"><iconify-icon icon="lucide:dumbbell" style="font-size:14px;"></iconify-icon></div>
-            <span class="stat-label">Bench</span>
+            <span class="stat-label">Top Lift</span>
             <span class="stat-value" id="stat-bench">—</span>
         </div>
         <div class="stat-card">
@@ -48,58 +48,77 @@
         </div>
     </div>
 
-    <!-- EXERCISES LIST -->
+    <!-- EXERCISES LIST — starts empty, user adds everything -->
     <div class="content-scroll" id="exercises-list">
-
-        <!-- BENCH PRESS — gymWeight key preserved for rank system -->
-        <div class="exercise-card" id="card-bench" data-key="gymWeight" data-label="Bench Press" data-goal="185" onclick="toggleCard(this)">
-            <div class="card-collapsed">
-                <div class="ex-left">
-                    <span class="ex-name">Bench Press</span>
-                    <div class="progress-track">
-                        <div class="progress-fill-bar" id="bar-gymWeight" style="width:0%"></div>
-                    </div>
-                </div>
-                <div class="ex-right">
-                    <span class="ex-value" id="val-gymWeight">—</span>
-                    <iconify-icon icon="lucide:chevron-down" class="chevron-icon" style="font-size:18px;"></iconify-icon>
-                </div>
+        <!-- empty state -->
+        <div class="empty-state" id="empty-state">
+            <div class="empty-icon">
+                <iconify-icon icon="lucide:dumbbell" style="font-size:32px; color:var(--orange);"></iconify-icon>
             </div>
+            <p class="empty-title">No exercises yet</p>
+            <p class="empty-sub">Tap <strong>+</strong> to add your first lift</p>
+        </div>
+    </div>
 
-            <div class="card-expanded" onclick="event.stopPropagation()">
-                <div class="expand-divider"></div>
-                <div class="mini-chart-wrap">
-                    <canvas class="mini-chart" id="chart-gymWeight" height="80"></canvas>
-                    <div class="chart-no-data" id="no-chart-gymWeight">Log weights to see your progress chart</div>
-                </div>
-                <div class="weight-history" id="history-gymWeight"></div>
-                <div class="input-row" id="input-row-gymWeight">
-                    <div class="gym-input-wrapper">
-                        <input type="number" class="gym-weight-input" id="gymWeight" placeholder="0" inputmode="decimal">
-                        <span class="gym-unit">LBS</span>
+    <!-- FAB -->
+    <button class="fab-add" id="fab-btn">
+        <iconify-icon icon="lucide:plus" style="font-size:26px;"></iconify-icon>
+    </button>
+
+    <!-- ===================== TIMER DOCK ===================== -->
+    <div class="timer-dock" id="timer-dock">
+
+        <!-- Collapsed bar: shows clock digits, tap to expand -->
+        <div class="timer-collapsed" id="timer-collapsed" onclick="toggleTimerPanel()">
+            <div class="timer-digits">
+                <div class="digit-block" id="digit-m1">0</div>
+                <div class="digit-block" id="digit-m2">0</div>
+                <div class="digit-sep">:</div>
+                <div class="digit-block" id="digit-s1">0</div>
+                <div class="digit-block" id="digit-s2">0</div>
+            </div>
+            <div class="timer-status" id="timer-status">REST TIMER</div>
+            <iconify-icon icon="lucide:chevron-up" id="timer-chevron" style="font-size:16px; color:var(--orange); opacity:0.7; transition: transform 0.3s ease;"></iconify-icon>
+        </div>
+
+        <!-- Expanded panel -->
+        <div class="timer-panel" id="timer-panel">
+            <div class="timer-panel-inner">
+                <div class="timer-input-row">
+                    <div class="timer-input-group">
+                        <label class="timer-label">Minutes</label>
+                        <input type="number" class="timer-input" id="timer-minutes" placeholder="3" min="0" max="99" inputmode="numeric">
                     </div>
-                    <button class="gym-save-btn" onclick="saveData('gymWeight', this)">Save</button>
-                </div>
-                <div class="input-row" id="edit-row-gymWeight" style="display:none;">
-                    <div class="gym-input-wrapper edit-active">
-                        <input type="number" class="gym-weight-input" id="gymWeight-edit" placeholder="0" inputmode="decimal">
-                        <span class="gym-unit">LBS</span>
+                    <div class="timer-input-group">
+                        <label class="timer-label">Seconds</label>
+                        <input type="number" class="timer-input" id="timer-seconds" placeholder="0" min="0" max="59" inputmode="numeric">
                     </div>
-                    <button class="gym-update-btn" onclick="confirmEdit('gymWeight', this)">Update</button>
                 </div>
-                <div class="card-actions">
-                    <button class="action-pill edit-pill" onclick="toggleEdit('gymWeight', event)">
-                        <iconify-icon icon="lucide:pencil" style="font-size:12px;"></iconify-icon> Edit
+
+                <!-- Quick presets -->
+                <div class="timer-presets">
+                    <button class="timer-preset" onclick="setPreset(1,0)">1m</button>
+                    <button class="timer-preset" onclick="setPreset(1,30)">1m 30s</button>
+                    <button class="timer-preset" onclick="setPreset(2,0)">2m</button>
+                    <button class="timer-preset" onclick="setPreset(3,0)">3m</button>
+                    <button class="timer-preset" onclick="setPreset(5,0)">5m</button>
+                </div>
+
+                <div class="timer-buttons">
+                    <button class="timer-btn timer-reset" id="timer-reset-btn" onclick="resetTimer()">
+                        <iconify-icon icon="lucide:rotate-ccw" style="font-size:16px;"></iconify-icon>
+                        Reset
+                    </button>
+                    <button class="timer-btn timer-start" id="timer-start-btn" onclick="startTimer()">
+                        <iconify-icon icon="lucide:play" style="font-size:16px;" id="timer-play-icon"></iconify-icon>
+                        <span id="timer-btn-label">Start</span>
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
+    <!-- ===================================================== -->
 
-    <button class="fab-add" id="fab-btn">
-        <iconify-icon icon="lucide:plus" style="font-size:26px;"></iconify-icon>
-    </button>
 </div>
 
 <!-- ADD EXERCISE MODAL -->
@@ -114,12 +133,13 @@
         </div>
         <div class="modal-body">
             <label class="form-label">Exercise Name</label>
-            <input type="text" class="form-input" id="new-exercise-name" placeholder="e.g. Overhead Press" autocomplete="off">
+            <input type="text" class="form-input" id="new-exercise-name" placeholder="e.g. Bench Press" autocomplete="off">
             <label class="form-label" style="margin-top:16px;">Goal (LBS) <span style="opacity:0.4;font-weight:400;">optional</span></label>
-            <input type="number" class="form-input" id="new-exercise-goal" placeholder="e.g. 225" inputmode="decimal">
+            <input type="number" class="form-input" id="new-exercise-goal" placeholder="e.g. 185" inputmode="decimal">
             <div class="quick-section">
                 <span class="form-label">Quick Add</span>
                 <div class="quick-grid">
+                    <button class="qpick" onclick="setExerciseName('Bench Press')">Bench Press</button>
                     <button class="qpick" onclick="setExerciseName('Deadlift')">Deadlift</button>
                     <button class="qpick" onclick="setExerciseName('Squat')">Squat</button>
                     <button class="qpick" onclick="setExerciseName('OHP')">OHP</button>
