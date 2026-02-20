@@ -18,23 +18,23 @@
 </head>
 <body>
 
-    <!-- SPLASH -->
+    <!-- =============================================
+         VIDEO SPLASH SCREEN
+         - muted + playsinline required for iOS autoplay
+         - poster="Loading.mp4#t=0.001" forces first frame on iOS
+         ============================================= -->
     <div class="splash-screen" id="splash-screen">
-        <div class="splash-logo">
-            <div class="splash-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="4" y="20" width="8" height="16" rx="2" fill="white"/>
-                    <rect x="16" y="12" width="8" height="24" rx="2" fill="white" opacity="0.8"/>
-                    <rect x="28" y="4" width="8" height="32" rx="2" fill="white" opacity="0.6"/>
-                    <rect x="40" y="8" width="4" height="28" rx="2" fill="white" opacity="0.4"/>
-                </svg>
-            </div>
-            <h1 class="splash-title">TrackLife</h1>
-            <p class="splash-sub">Competitive Lifestyle Ranking</p>
-        </div>
-        <div class="splash-loader">
-            <div class="splash-loader-bar"></div>
-        </div>
+        <video
+            id="splash-video"
+            autoplay
+            muted
+            playsinline
+            preload="auto"
+            disablepictureinpicture
+            style="width:100%;height:100%;object-fit:cover;display:block;"
+        >
+            <source src="Loading.mp4" type="video/mp4">
+        </video>
     </div>
 
     <!-- TRANSITION OVERLAY -->
@@ -103,25 +103,54 @@
 
     <script src="main.js"></script>
     <script>
-        // SPLASH — localStorage so iOS PWA doesn't reset every launch
-        const splash = document.getElementById('splash-screen');
-        const lastSplash = parseInt(localStorage.getItem('tracklife_splash_ts') || '0');
-        if (Date.now() - lastSplash < 30 * 60 * 1000) {
-            splash.style.display = 'none';
-        } else {
-            localStorage.setItem('tracklife_splash_ts', Date.now().toString());
-            setTimeout(() => {
-                splash.classList.add('splash-hide');
-                setTimeout(() => { splash.style.display = 'none'; }, 600);
-            }, 2200);
+        // =============================================
+        // VIDEO SPLASH
+        // Uses localStorage (not sessionStorage) so it
+        // survives iOS PWA relaunches correctly.
+        // 30-min cooldown — shows once per session.
+        // =============================================
+        const splash      = document.getElementById('splash-screen');
+        const video       = document.getElementById('splash-video');
+        const SPLASH_KEY  = 'tracklife_splash_ts';
+        const COOLDOWN    = 30 * 60 * 1000; // 30 minutes
+        const lastSplash  = parseInt(localStorage.getItem(SPLASH_KEY) || '0');
+
+        function hideSplash() {
+            splash.classList.add('splash-hide');
+            setTimeout(() => { splash.style.display = 'none'; }, 650);
         }
 
+        if (Date.now() - lastSplash < COOLDOWN) {
+            // Already shown recently — skip entirely
+            splash.style.display = 'none';
+        } else {
+            // Mark timestamp and play video
+            localStorage.setItem(SPLASH_KEY, Date.now().toString());
+
+            // Dismiss when video finishes
+            video.addEventListener('ended', hideSplash);
+
+            // Safety fallback: if video stalls or takes > 8s, dismiss anyway
+            const fallback = setTimeout(hideSplash, 8000);
+            video.addEventListener('ended', () => clearTimeout(fallback));
+
+            // iOS sometimes needs a manual play() call
+            video.play().catch(() => {
+                // If autoplay is blocked (e.g. low-power mode), skip splash
+                hideSplash();
+            });
+        }
+
+        // =============================================
         // PAGE TRANSITIONS
+        // =============================================
         const overlay = document.getElementById('page-transition-overlay');
+
         window.addEventListener('pageshow', () => {
             document.body.classList.add('page-enter');
             setTimeout(() => document.body.classList.remove('page-enter'), 500);
         });
+
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -131,6 +160,7 @@
                 setTimeout(() => { window.location.href = target; }, 380);
             });
         });
+
         document.getElementById('cta-btn').addEventListener('click', () => {
             document.querySelector('.content-section').scrollIntoView({ behavior: 'smooth' });
         });
