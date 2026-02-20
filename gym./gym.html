@@ -23,52 +23,104 @@
         <button class="back-btn" id="back-btn">
             <iconify-icon icon="lucide:arrow-left" style="font-size:20px;"></iconify-icon>
         </button>
-        <h1 class="page-title">Gym Tracker</h1>
-        <button class="add-btn" id="add-exercise-btn">
+        <h1 class="page-title" id="page-title-text">Gym Tracker</h1>
+        <button class="add-btn" id="add-exercise-btn" style="display:none;">
             <iconify-icon icon="lucide:plus" style="font-size:20px;"></iconify-icon>
         </button>
     </div>
 
-    <!-- STATS STRIP -->
-    <div class="stats-strip">
-        <div class="stat-card">
-            <div class="stat-icon"><iconify-icon icon="lucide:dumbbell" style="font-size:14px;"></iconify-icon></div>
-            <span class="stat-label">Top Lift</span>
-            <span class="stat-value" id="stat-bench">—</span>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><iconify-icon icon="lucide:trending-up" style="font-size:14px;"></iconify-icon></div>
-            <span class="stat-label">Progress</span>
-            <span class="stat-value" id="stat-progress">0%</span>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><iconify-icon icon="lucide:activity" style="font-size:14px;"></iconify-icon></div>
-            <span class="stat-label">Lifts</span>
-            <span class="stat-value" id="stat-lifts">0</span>
-        </div>
+    <!-- TAB BAR -->
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tab-calendar" onclick="switchTab('calendar')">
+            <iconify-icon icon="lucide:calendar" style="font-size:15px;"></iconify-icon>
+            Calendar
+        </button>
+        <button class="tab-btn" id="tab-workouts" onclick="switchTab('workouts')">
+            <iconify-icon icon="lucide:dumbbell" style="font-size:15px;"></iconify-icon>
+            Workouts
+        </button>
     </div>
 
-    <!-- EXERCISES LIST — starts empty, user adds everything -->
-    <div class="content-scroll" id="exercises-list">
-        <!-- empty state -->
-        <div class="empty-state" id="empty-state">
-            <div class="empty-icon">
-                <iconify-icon icon="lucide:dumbbell" style="font-size:32px; color:var(--orange);"></iconify-icon>
+    <!-- ============================================================
+         CALENDAR VIEW (default)
+         ============================================================ -->
+    <div class="view-pane" id="view-calendar">
+
+        <!-- Month navigation -->
+        <div class="cal-header">
+            <button class="cal-nav-btn" onclick="calPrevMonth()">
+                <iconify-icon icon="lucide:chevron-left" style="font-size:20px;"></iconify-icon>
+            </button>
+            <span class="cal-month-label" id="cal-month-label">Month Year</span>
+            <button class="cal-nav-btn" onclick="calNextMonth()">
+                <iconify-icon icon="lucide:chevron-right" style="font-size:20px;"></iconify-icon>
+            </button>
+        </div>
+
+        <!-- Day-of-week headers -->
+        <div class="cal-dow-row">
+            <span>Sun</span><span>Mon</span><span>Tue</span>
+            <span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+
+        <!-- Calendar grid filled by JS -->
+        <div class="cal-grid" id="cal-grid"></div>
+
+        <!-- Legend -->
+        <div class="cal-legend">
+            <div class="legend-item"><span class="legend-dot dot-none"></span>No activity</div>
+            <div class="legend-item"><span class="legend-dot dot-low"></span>1+ lifts</div>
+            <div class="legend-item"><span class="legend-dot dot-mid"></span>5+ lifts</div>
+            <div class="legend-item"><span class="legend-dot dot-high"></span>10+ lifts</div>
+            <div class="legend-item"><span class="legend-dot dot-rest"></span>Rest day</div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         WORKOUTS VIEW
+         ============================================================ -->
+    <div class="view-pane hidden" id="view-workouts">
+
+        <!-- Stats strip -->
+        <div class="stats-strip">
+            <div class="stat-card">
+                <div class="stat-icon"><iconify-icon icon="lucide:dumbbell" style="font-size:14px;"></iconify-icon></div>
+                <span class="stat-label">Top Lift</span>
+                <span class="stat-value" id="stat-bench">—</span>
             </div>
-            <p class="empty-title">No exercises yet</p>
-            <p class="empty-sub">Tap <strong>+</strong> to add your first lift</p>
+            <div class="stat-card">
+                <div class="stat-icon"><iconify-icon icon="lucide:trending-up" style="font-size:14px;"></iconify-icon></div>
+                <span class="stat-label">Progress</span>
+                <span class="stat-value" id="stat-progress">0%</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><iconify-icon icon="lucide:activity" style="font-size:14px;"></iconify-icon></div>
+                <span class="stat-label">Lifts</span>
+                <span class="stat-value" id="stat-lifts">0</span>
+            </div>
         </div>
+
+        <!-- Exercise cards list -->
+        <div class="content-scroll" id="exercises-list">
+            <div class="empty-state" id="empty-state">
+                <div class="empty-icon">
+                    <iconify-icon icon="lucide:dumbbell" style="font-size:32px; color:var(--orange);"></iconify-icon>
+                </div>
+                <p class="empty-title">No exercises yet</p>
+                <p class="empty-sub">Tap <strong>+</strong> to add your first lift</p>
+            </div>
+        </div>
+
     </div>
 
-    <!-- FAB -->
-    <button class="fab-add" id="fab-btn">
+    <!-- FAB (workouts tab only) -->
+    <button class="fab-add" id="fab-btn" style="display:none;">
         <iconify-icon icon="lucide:plus" style="font-size:26px;"></iconify-icon>
     </button>
 
     <!-- ===================== TIMER DOCK ===================== -->
     <div class="timer-dock" id="timer-dock">
-
-        <!-- Collapsed bar: shows clock digits, tap to expand -->
         <div class="timer-collapsed" id="timer-collapsed" onclick="toggleTimerPanel()">
             <div class="timer-digits">
                 <div class="digit-block" id="digit-m1">0</div>
@@ -80,8 +132,6 @@
             <div class="timer-status" id="timer-status">REST TIMER</div>
             <iconify-icon icon="lucide:chevron-up" id="timer-chevron" style="font-size:16px; color:var(--orange); opacity:0.7; transition: transform 0.3s ease;"></iconify-icon>
         </div>
-
-        <!-- Expanded panel -->
         <div class="timer-panel" id="timer-panel">
             <div class="timer-panel-inner">
                 <div class="timer-input-row">
@@ -94,8 +144,6 @@
                         <input type="number" class="timer-input" id="timer-seconds" placeholder="0" min="0" max="59" inputmode="numeric">
                     </div>
                 </div>
-
-                <!-- Quick presets -->
                 <div class="timer-presets">
                     <button class="timer-preset" onclick="setPreset(1,0)">1m</button>
                     <button class="timer-preset" onclick="setPreset(1,30)">1m 30s</button>
@@ -103,11 +151,9 @@
                     <button class="timer-preset" onclick="setPreset(3,0)">3m</button>
                     <button class="timer-preset" onclick="setPreset(5,0)">5m</button>
                 </div>
-
                 <div class="timer-buttons">
-                    <button class="timer-btn timer-reset" id="timer-reset-btn" onclick="resetTimer()">
-                        <iconify-icon icon="lucide:rotate-ccw" style="font-size:16px;"></iconify-icon>
-                        Reset
+                    <button class="timer-btn timer-reset" onclick="resetTimer()">
+                        <iconify-icon icon="lucide:rotate-ccw" style="font-size:16px;"></iconify-icon> Reset
                     </button>
                     <button class="timer-btn timer-start" id="timer-start-btn" onclick="startTimer()">
                         <iconify-icon icon="lucide:play" style="font-size:16px;" id="timer-play-icon"></iconify-icon>
@@ -117,8 +163,51 @@
             </div>
         </div>
     </div>
-    <!-- ===================================================== -->
 
+</div><!-- end .screen-container -->
+
+<!-- ============================================================
+     DAY DETAIL PANEL (slides up from bottom)
+     ============================================================ -->
+<div class="day-backdrop" id="day-backdrop" onclick="closeDayPanel()">
+    <div class="day-panel" id="day-panel" onclick="event.stopPropagation()">
+        <div class="day-panel-handle"></div>
+        <div class="day-panel-header">
+            <div>
+                <div class="day-panel-date" id="day-panel-date">Monday, Jan 1</div>
+                <div class="day-panel-sub" id="day-panel-sub">0 exercises logged</div>
+            </div>
+            <button class="day-panel-close" onclick="closeDayPanel()">
+                <iconify-icon icon="lucide:x" style="font-size:18px;"></iconify-icon>
+            </button>
+        </div>
+
+        <!-- Rest Day Banner (shown when rest day) -->
+        <div class="rest-banner" id="rest-banner" style="display:none;">
+            <iconify-icon icon="lucide:leaf" style="font-size:28px; color:var(--green);"></iconify-icon>
+            <div>
+                <div class="rest-banner-title">Recovery Day</div>
+                <div class="rest-banner-sub">Rest, stretch & recharge</div>
+            </div>
+        </div>
+
+        <!-- Exercise log list -->
+        <div class="day-log-list" id="day-log-list"></div>
+
+        <!-- Empty state for day -->
+        <div class="day-empty" id="day-empty" style="display:none;">
+            <iconify-icon icon="lucide:moon" style="font-size:28px; color:var(--text-3);"></iconify-icon>
+            <p>No activity logged</p>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="day-actions">
+            <button class="day-action-btn rest-day-btn" id="rest-day-btn" onclick="toggleRestDay()">
+                <iconify-icon icon="lucide:leaf" style="font-size:15px;"></iconify-icon>
+                <span id="rest-day-btn-label">Mark as Rest Day</span>
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- ADD EXERCISE MODAL -->
