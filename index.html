@@ -146,7 +146,19 @@
         // =============================================
         const overlay = document.getElementById('page-transition-overlay');
 
-        window.addEventListener('pageshow', () => {
+        // pageshow fires both on fresh load AND when restoring from bfcache
+        // (i.e. pressing back from gym). event.persisted = true means bfcache.
+        // In that case we must kill the video splash immediately — it would
+        // otherwise re-cover the screen in black.
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                // Back-navigation from another page — force splash gone instantly
+                video.pause();
+                video.currentTime = 0;
+                splash.style.display = 'none';
+                splash.classList.remove('splash-hide');
+                overlay.classList.remove('overlay-active');
+            }
             document.body.classList.add('page-enter');
             setTimeout(() => document.body.classList.remove('page-enter'), 500);
         });
